@@ -1,5 +1,4 @@
-# ONNX Runtime on Qualcomm Hexagon – QCS6490
-
+# ONNX Runtime on Qualcomm Hexagon
 **Version:** 1.0
 
 **Release Date:** Feb 2026
