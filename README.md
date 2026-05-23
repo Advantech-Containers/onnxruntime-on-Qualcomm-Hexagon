@@ -1,31 +1,44 @@
 # ONNX Runtime on Qualcomm Hexagon
+
 **Version:** 1.0
 
-**Release Date:** Feb 2026
+**Release Date:** May 2026
 
-**Copyright:** © 2026 Advantech Corporation & NYCU COSMOS Lab. All rights reserved.
+**Copyright:** © 2026 Advantech Corporation. All rights reserved.
 
 
-This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime container on the QCS6490 platform.
+This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime container on the Qualcomm Hexagon platform.
 
 ## 1. Hardware Specifications
+> [!NOTE]
+> This container image is compatible with Advantech AOM-2721 and Advantech AIR-055.
 
 | Component       | Specification      |
 |-----------------|--------------------|
-| Target Hardware | [ADVANTECH AOM-2721](https://www.advantech.com/en-us/products/risc_evaluation_kit/aom-dk2721/mod_0e561ece-295c-4039-a545-68f8ded469a8) |
-| SoC             | Qualcomm QCS6490   |
-| GPU             | Adreno™ 643        |
-| DSP             | Hexagon™ 770       |
+| Target Hardware | [Advantech AOM-2721](https://www.advantech.com/en-us/products/risc_evaluation_kit/aom-dk2721/mod_0e561ece-295c-4039-a545-68f8ded469a8) |
+| SoC             | Qualcomm® QCS6490   |
+| GPU             | Qualcomm® Adreno™ 643        |
+| DSP             | Qualcomm® Hexagon™ 770 (12 TOPs) |
 | Memory          | 8GB LPDDR5         |
 
 
+| Component       | Specification      |
+|-----------------|--------------------|
+| Target Hardware | [Advantech AIR-055](https://www.advantech.com/en-us/products/932c8818-07cc-4917-89e9-7a678ddc029c/air-055/mod_4e23ea2a-d196-4884-8c62-c31780fbafb0) |
+| SoC             | Qualcomm® Dragonwing™ IQ-9075   |
+| GPU             | Qualcomm® Adreno™ 663        |
+| DSP             | Qualcomm® Hexagon™ (100 TOPs) |
+| Memory          | 36GB LPDDR5         |
+
 ## 2. Software Components
 
-| Component          | Version | Description                                                        |
-| ------------------ | ------- | ------------------------------------------------------------------ |
-| Python             | 3.10    | Runtime environment                                                |
-| ONNX Runtime (QNN) | 1.24.1  | Custom build with QNN Execution Provider (Built with QAIRT 2.43.0) |
-| QAIRT (QNN SDK)    | 2.43.0  | Qualcomm AI Runtime backend                                        |
+| Component             | Version | Description                                                        |
+| --------------------- | ------- | ------------------------------------------------------------------ |
+| Ubuntu                | 22.04   | Guest OS                                                           |
+| Python                | 3.10    | Runtime environment                                                |
+| ONNX Runtime (QNN EP) | 1.24.1  | Custom build with QNN Execution Provider (Built with QAIRT 2.43.0) |
+| QAIRT (QNN SDK)       | 2.43.0  | Qualcomm AI Runtime backend library                                |
+| LiteRT                | 2.1.4   | Provides QNN TFLite Delegate support for GPU/NPU acceleration      |
 
 **Note**: The custom build of `onnxruntime-qnn` currently only works within this container environment.
 
@@ -33,16 +46,16 @@ This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime co
 Clone the project:
 - On the PC
 ```
-git clone https://github.com/Advantech-EdgeSync-Containers/onnxruntime-on-Qualcomm-Hexagon-QCS6490.git
-scp -r ./onnxruntime-on-Qualcomm-Hexagon-QCS6490-main\ <username>@<aom2721-ip>:/home/<username>/
+git clone https://github.com/Advantech-EdgeSync-Containers/onnxruntime-on-Qualcomm-Hexagon.git
+scp -r ./onnxruntime-on-Qualcomm-Hexagon-main\ <username>@<development-board-ip>:/home/<username>/
 ```
-- On AOM-2721
+- On AOM-2721 / AIR-055
 ```
-chmod +x -R onnxruntime-on-Qualcomm-Hexagon-QCS6490-main
-cd onnxruntime-on-Qualcomm-Hexagon-QCS6490-main
+chmod +x -R onnxruntime-on-Qualcomm-Hexagon-main
+cd onnxruntime-on-Qualcomm-Hexagon-main
 ```
 
-Start container:
+Start the container:
 ```
 ./run-container.sh
 ```
@@ -58,15 +71,15 @@ Expected output:
 ```
 Exited container. Cleaning up...
 [+] Running 2/2
- ✔ Container qualcomm-onnxruntime-qnn-ready-container        Removed                                                                                 10.4s 
- ✔ Network qualcomm-onnxruntime-qnn-ready-container_default  Removed  
+ ✔ Container onnxruntime-on-qualcomm-hexagon       Removed                                                                                 10.4s 
+ ✔ Network onnxruntime-on-qualcomm-hexagon_default  Removed  
 ```
 
 ## 5. Test ONNX Runtime with NPU capability
 Run the benchmark script:
 ```
-cd nycu-benchmark
-python nycu-cosmoslab-onnxruntime-benchmark.py
+cd /benchmark
+python benchmark.py
 ```
 
 Benchmark Result (100 Iterations)
@@ -76,48 +89,41 @@ Model: [EfficientNet-B0](https://aihub.qualcomm.com/models/efficientnet_b0)
 Quantiaztion: w8a16
 
 **Model is download from Qualcomm AI-Hub
+- AOM-2721 Result
 ```
---- Initializing CPU Session ---
---- Initializing QNN Session (HTP/DSP) ---
-/prj/qct/webtech_scratch20/mlg_user_admin/qaisw_source_repo/rel/qairt-2.43.0/release/SNPE_SRC/avante-tools/prebuilt/dsp/hexagon-sdk-5.5.5/ipc/fastrpc/rpcmem/src/rpcmem_android.c:38:dummy call to rpcmem_init, rpcmem APIs will be used from libxdsprpc
-Starting stage: Graph Preparation Initializing
-Completed stage: Graph Preparation Initializing (268 us)
-Starting stage: Graph Optimizations
-Completed stage: Graph Optimizations (603465 us)
-Starting stage: Post Graph Optimization
-Completed stage: Post Graph Optimization (18554 us)
-Starting stage: Graph Sequencing for Target
-Completed stage: Graph Sequencing for Target (100218 us)
-Starting stage: VTCM Allocation
-Completed stage: VTCM Allocation (25607 us)
-Starting stage: Parallelization Optimization
-Completed stage: Parallelization Optimization (7322 us)
-Starting stage: Finalizing Graph Sequence
+============================================================
+PERFORMANCE COMPARISON
+============================================================
+[CPU Execution Provider] Running 100 iterations...
+[QNN Execution Provider] Running 100 iterations...
+------------------------- ----------
+Backend                          FPS
+------------------------- ----------
+CPU Execution Provider          7.42
+QNN Execution Provider        174.21
 
-====== DDR bandwidth summary ======
-spill_bytes=0
-fill_bytes=0
-write_total_bytes=65536
-read_total_bytes=11130880
-
-Completed stage: Finalizing Graph Sequence (9903 us)
-Starting stage: Completion
-Completed stage: Completion (551 us)
-
-========================================
- PERFORMANCE COMPARISON (100 Iterations)
-========================================
-[CPU Only] Running 100 iterations...
-[CPU Only] Total Time: 13687.09 ms
-[CPU Only] Average Latency: 136.8709 ms
-[QNN (NPU)] Running 100 iterations...
-[QNN (NPU)] Total Time: 537.07 ms
-[QNN (NPU)] Average Latency: 5.3707 ms
-
- Result: QNN is 25.48x faster than CPU (Average)
+[Result] QNN Execution Provider is 23.47x faster than CPU (Average)
 
 ```
-The result confirms that inference is successfully offloaded to the Hexagon 770  through the QNN Execution Provider, achieving approximately 25× acceleration compared to CPU execution.
+
+- AIR-055 Result
+
+```
+============================================================
+PERFORMANCE COMPARISON
+============================================================
+[CPU Execution Provider] Running 100 iterations...
+[QNN Execution Provider] Running 100 iterations...
+------------------------- ----------
+Backend                          FPS
+------------------------- ----------
+CPU Execution Provider         25.98
+QNN Execution Provider        325.80
+
+[Result] QNN Execution Provider is 12.54x faster than CPU (Average)
+```
+
+The result confirms that inference is successfully offloaded to the Hexagon NPU through the QNN Execution Provider, achieving approximately 174.21fps - 325.80 fps acceleration compared to CPU execution on AOM-2721 and AIR-055, respectively.
 
 ## 6. Development Workflow
 
@@ -126,12 +132,11 @@ The container uses a bind mount configuration:
 volumes:
   - ./:/workspace/
 ```
-The host project directory (e.g., onnxruntime-on-Qualcomm-Hexagon-QCS6490-main) is directly synchronized with /workspace inside the container.
+The host project directory (e.g., onnxruntime-on-Qualcomm-Hexagon-main) is directly synchronized with /workspace inside the container.
 
 You can create or modify Python files directly in the host project folder, and they will be immediately available inside the container without rebuilding the image.
 
 ### Example
-
 Create a new Python file on the host:
 ```
 touch test.py
@@ -144,9 +149,9 @@ import onnxruntime as ort
 print(ort.get_available_providers())
 ```
 
-Expected output:
+Switch to `/workspace` in the conatiner:
 ```
-['QNNExecutionProvider', 'CPUExecutionProvider']
+cd /workspace
 ```
 
 Run it inside the container:
@@ -154,7 +159,14 @@ Run it inside the container:
 python test.py
 ```
 
-If `QNNExecutionProvider` appears in the output, it confirms that the QNN Execution Provider is successfully enabled and the container can access the Hexagon 770.
+Expected output:
+```
+['QNNExecutionProvider', 'CPUExecutionProvider']
+```
+
+If `QNNExecutionProvider` appears in the output, it confirms that the QNN Execution Provider is successfully enabled and the container can access the Hexagon NPU.
 
 
 This workflow enables rapid development and testing while keeping the runtime environment isolated within the container.
+
+

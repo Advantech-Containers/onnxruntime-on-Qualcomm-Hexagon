@@ -1,0 +1,42 @@
+services:
+  onnxruntime-on-qualcomm-hexagon:
+    image: harbor.edgesync.cloud/nycu-cosmos-lab/onnxruntime-on-qualcomm-hexagon:v1
+    container_name: onnxruntime-on-qualcomm-hexagon
+    hostname: onnxruntime-on-qualcomm-hexagon
+    privileged: false
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+    devices:
+      - /dev/dri/card0
+      - /dev/dri/renderD128
+      - /dev/kgsl-3d0
+      - /dev/dma_heap/system
+      - /dev/fastrpc-cdsp
+      - /dev/fastrpc-cdsp-secure
+      - /dev/fastrpc-adsp-secure
+      - /dev/video32
+      - /dev/video33
+    volumes:
+      # --- Adreno GPU / OpenCL ---
+      - /usr/lib/aarch64-linux-gnu/libCB.so:/usr/lib/libCB.so
+      - /usr/lib/aarch64-linux-gnu/libOpenCL.so:/usr/lib/libOpenCL.so
+      - /usr/lib/aarch64-linux-gnu/libOpenCL_adreno.so:/usr/lib/libOpenCL_adreno.so
+      - /usr/lib/aarch64-linux-gnu/libadreno_utils.so:/usr/lib/libadreno_utils.so
+      - /usr/lib/aarch64-linux-gnu/libgsl.so:/usr/lib/libgsl.so
+      - /usr/lib/aarch64-linux-gnu/libllvm-qcom.so:/usr/lib/libllvm-qcom.so
+      # --- Hexagon NPU / RPC ---
+      - /usr/lib/aarch64-linux-gnu/libadsprpc.so:/usr/lib/libadsprpc.so
+      - /usr/lib/aarch64-linux-gnu/libcdsprpc.so:/usr/lib/libcdsprpc.so
+      - /usr/lib/aarch64-linux-gnu/dsp/:/usr/lib/dsp/
+      # --- Qualcomm DMA Buffer ---
+      - /usr/lib/aarch64-linux-gnu/libdmabufheap.so.0:/usr/lib/libdmabufheap.so.0
+      - /usr/lib/aarch64-linux-gnu/libvmmem.so.0:/usr/lib/libvmmem.so.0
+      - /usr/lib/aarch64-linux-gnu/libpropertyvault.so.0:/usr/lib/libpropertyvault.so.0
+      # --- Weston / X11 ---
+      - /etc/xdg/weston:/etc/xdg/weston
+      - /usr/share/X11:/usr/share/X11
+      - /dev/socket/weston:/dev/socket/weston
+      # --- User Data ---
+      - ./:/workspace/
