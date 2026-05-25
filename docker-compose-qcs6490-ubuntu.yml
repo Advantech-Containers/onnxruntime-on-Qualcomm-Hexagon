@@ -8,6 +8,9 @@ services:
     tty: true
     restart: unless-stopped
 
+    environment:
+      - XDG_RUNTIME_DIR=/run/user/1000
+      - WAYLAND_DISPLAY=wayland-0
     devices:
       - /dev/dri/card0
       - /dev/dri/renderD128

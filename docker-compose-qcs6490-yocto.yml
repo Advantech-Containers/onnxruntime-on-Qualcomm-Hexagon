@@ -8,6 +8,9 @@ services:
     tty: true
     restart: unless-stopped
 
+    environment:
+      - XDG_RUNTIME_DIR=/dev/socket/weston
+      - WAYLAND_DISPLAY=wayland-1
     devices:
       - /dev/dri/card0
       - /dev/dri/renderD128
