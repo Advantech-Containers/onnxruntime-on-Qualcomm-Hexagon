@@ -39,6 +39,7 @@ This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime co
 | ONNX Runtime (QNN EP) | 1.24.1  | Custom build with QNN Execution Provider (Built with QAIRT 2.43.0) |
 | QAIRT (QNN SDK)       | 2.43.0  | Qualcomm AI Runtime backend library                                |
 | LiteRT                | 2.1.4   | Provides QNN TFLite Delegate support for GPU/NPU acceleration      |
+| Gstreamer             | 1.20.3  | Multimedia framework for building flexible audio/video pipelines   |
 
 **Note**: The custom build of `onnxruntime-qnn` currently only works within this container environment.
 
