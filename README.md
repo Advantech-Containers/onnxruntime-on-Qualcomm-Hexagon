@@ -11,7 +11,7 @@ This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime co
 
 ## 1. Hardware Specifications
 > [!NOTE]
-> This container image is compatible with Advantech AOM-2721 and Advantech AIR-055.
+> This container image is compatible with Advantech AOM-2721, Advantech AIR-055 and Advantech AFE-A503.
 
 | Component       | Specification      |
 |-----------------|--------------------|
@@ -29,6 +29,14 @@ This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime co
 | GPU             | Qualcomm® Adreno™ 663        |
 | DSP             | Qualcomm® Hexagon™ (100 TOPs) |
 | Memory          | 36GB LPDDR5         |
+
+| Component       | Specification      |
+|-----------------|--------------------|
+| Target Hardware | [Advantech AFE-A503](https://www.advantech.com/zh-tw/products/8d5aadd0-1ef5-4704-a9a1-504718fb3b41/afe-a503/mod_12fdad30-7018-42b3-8d55-4b463f90166b) |
+| SoC             | Qualcomm® Dragonwing™ IQ-9075M   |
+| GPU             | Qualcomm® Adreno™ 663        |
+| DSP             | Qualcomm® Hexagon™ (100 TOPs) |
+| Memory          | 32GB LPDDR5         |
 
 ## 2. Software Components
 
@@ -50,7 +58,7 @@ Clone the project:
 git clone https://github.com/Advantech-EdgeSync-Containers/onnxruntime-on-Qualcomm-Hexagon.git
 scp -r ./onnxruntime-on-Qualcomm-Hexagon-main\ <username>@<development-board-ip>:/home/<username>/
 ```
-- On AOM-2721 / AIR-055
+- On device (AOM-2721, AIR-055, AFE-A503, ...)
 ```
 chmod +x -R onnxruntime-on-Qualcomm-Hexagon-main
 cd onnxruntime-on-Qualcomm-Hexagon-main
