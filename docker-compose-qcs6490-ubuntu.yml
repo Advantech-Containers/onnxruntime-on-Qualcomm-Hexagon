@@ -8,9 +8,12 @@ services:
     tty: true
     restart: unless-stopped
 
+    
     environment:
-      - XDG_RUNTIME_DIR=/run/user/1000
-      - WAYLAND_DISPLAY=wayland-0
+      - XDG_RUNTIME_DIR=/dev/socket/weston
+      - WAYLAND_DISPLAY=wayland-1
+    device_cgroup_rules:
+      - 'c 81:* rmw'
     devices:
       - /dev/dri/card0
       - /dev/dri/renderD128
@@ -22,6 +25,7 @@ services:
       - /dev/video32
       - /dev/video33
     volumes:
+      - /dev:/dev
       # --- Adreno GPU / OpenCL ---
       - /usr/lib/aarch64-linux-gnu/libCB.so:/usr/lib/libCB.so
       - /usr/lib/aarch64-linux-gnu/libOpenCL.so:/usr/lib/libOpenCL.so
@@ -42,4 +46,4 @@ services:
       - /usr/share/X11:/usr/share/X11
       - /dev/socket/weston:/dev/socket/weston
       # --- User Data ---
-      - ./:/workspace/
+      - ./workspace:/workspace/

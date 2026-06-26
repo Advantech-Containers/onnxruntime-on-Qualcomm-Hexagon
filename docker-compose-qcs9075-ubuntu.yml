@@ -11,6 +11,8 @@ services:
     environment:
       - XDG_RUNTIME_DIR=/run/user/1000
       - WAYLAND_DISPLAY=wayland-0
+    device_cgroup_rules:
+      - 'c 81:* rmw'
     devices:
       - /dev/dri/card0
       - /dev/dri/renderD128
@@ -22,6 +24,7 @@ services:
       - /dev/video32
       - /dev/video33
     volumes:
+      - /dev:/dev
       # --- Adreno GPU / OpenCL ---
       - /usr/lib/aarch64-linux-gnu/libCB.so:/usr/lib/libCB.so
       - /usr/lib/aarch64-linux-gnu/libOpenCL.so:/usr/lib/libOpenCL.so
@@ -38,8 +41,7 @@ services:
       - /usr/lib/aarch64-linux-gnu/libvmmem.so.0:/usr/lib/libvmmem.so.0
       - /usr/lib/aarch64-linux-gnu/libpropertyvault.so.0:/usr/lib/libpropertyvault.so.0
       # --- Weston / X11 ---
-      - /etc/xdg/weston:/etc/xdg/weston
       - /usr/share/X11:/usr/share/X11
-      - /dev/socket/weston:/dev/socket/weston
+      - /run/user/1000:/run/user/1000
       # --- User Data ---
-      - ./:/workspace/
+      - ./workspace:/workspace/
