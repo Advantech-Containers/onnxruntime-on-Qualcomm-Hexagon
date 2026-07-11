@@ -85,7 +85,69 @@ Exited container. Cleaning up...
 ```
 
 ## 5. Test ONNX Runtime with NPU capability
-Run the benchmark script:
+1. Run the wise-bench script:
+```
+cd /benchmark
+./wise-bench.sh
+```
+Wise-Bench Result 
+- AOM-2721 Result
+```
++--- FINAL SUMMARY TABLE --------------------------------+
+|                                                  |
++--------------------------------------------------+
++--------------------------------------------------+
+| Summary Results                                |
++--------------------------------------------------+
+| QNN GPU Backend           | 2.43.0 | Supported |
+| QNN NPU Backend           | 2.43.0 | Supported |
+| SNPE GPU Runtime          | 2.43.0 | Supported |
+| SNPE NPU Runtime          | 2.43.0 | Supported |
+| LiteRT QNN Delegate       | 2.1.5  | Supported |
+| GStreamer                 | 1.20.3 | Supported |
+| ONNX Runtime QNN EP       | 1.24.1 | Supported |
++--------------------------------------------------+
+| Overall Score             | 100% (7/7) |
+| Progress                  | ████████████████████ |
+
++--- DIAGNOSTICS COMPLETE -------------------------------+
+|                                                  |
++--------------------------------------------------+
+
++--- All diagnostics completed --------------------------+
+|                                                  |
++--------------------------------------------------+
+>>> Diagnostic Completed at: 2026-07-08 07:58:08
+```
+- AIR-055 Result
+```
++--- FINAL SUMMARY TABLE --------------------------------+
+|                                                  |
++--------------------------------------------------+
++--------------------------------------------------+
+| Summary Results                                |
++--------------------------------------------------+
+| QNN GPU Backend           | 2.43.0 | Not Supported |
+| QNN NPU Backend           | 2.43.0 | Not Supported |
+| SNPE GPU Runtime          | 2.43.0 | Not Supported |
+| SNPE NPU Runtime          | 2.43.0 | Not Supported |
+| LiteRT QNN Delegate       | 2.1.5  | Supported |
+| GStreamer                 | 1.20.3 | Supported |
+| ONNX Runtime QNN EP       | 1.24.1 | Supported |
++--------------------------------------------------+
+| Overall Score             | 42% (3/7) |
+| Progress                  | ████████░░░░░░░░░░░░ |
+
++--- DIAGNOSTICS COMPLETE -------------------------------+
+|                                                  |
++--------------------------------------------------+
+
++--- All diagnostics completed --------------------------+
+|                                                  |
++--------------------------------------------------+
+>>> Diagnostic Completed at: 2026-07-08 07:45:52
+``` 
+2. Run the benchmark script:
 ```
 cd /benchmark
 python benchmark.py
@@ -97,7 +159,7 @@ Model: [EfficientNet-B0](https://aihub.qualcomm.com/models/efficientnet_b0)
 
 Quantiaztion: w8a16
 
-**Model is download from Qualcomm AI-Hub
+**Model is download from Qualcomm AI-Hub**
 - AOM-2721 Result
 ```
 ============================================================
