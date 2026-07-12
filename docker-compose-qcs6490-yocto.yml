@@ -3,13 +3,13 @@ services:
     image: harbor.edgesync.cloud/nycu-cosmos-lab/onnxruntime-on-qualcomm-hexagon:v1
     container_name: onnxruntime-on-qualcomm-hexagon
     hostname: onnxruntime-on-qualcomm-hexagon
-    privileged: false
+    privileged: true
     stdin_open: true
     tty: true
     restart: unless-stopped
 
     environment:
-      - XDG_RUNTIME_DIR=/dev/socket/weston
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
       - WAYLAND_DISPLAY=wayland-1
     device_cgroup_rules:
       - 'c 81:* rmw'
@@ -41,8 +41,7 @@ services:
       - /usr/lib/libvmmem.so.0:/usr/lib/libvmmem.so.0
       - /usr/lib/libpropertyvault.so.0:/usr/lib/libpropertyvault.so.0
       # --- Weston / X11 ---
-      - /etc/xdg/weston:/etc/xdg/weston
       - /usr/share/X11:/usr/share/X11
-      - /dev/socket/weston:/dev/socket/weston
+      - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}
       # --- User Data ---
       - ./workspace:/workspace/
