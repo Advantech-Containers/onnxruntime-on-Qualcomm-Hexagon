@@ -127,16 +127,16 @@ Wise-Bench Result
 +--------------------------------------------------+
 | Summary Results                                |
 +--------------------------------------------------+
-| QNN GPU Backend           | 2.43.0 | Not Supported |
-| QNN NPU Backend           | 2.43.0 | Not Supported |
-| SNPE GPU Runtime          | 2.43.0 | Not Supported |
-| SNPE NPU Runtime          | 2.43.0 | Not Supported |
-| LiteRT QNN Delegate       | 2.1.5  | Supported |
-| GStreamer                 | 1.20.3 | Supported |
-| ONNX Runtime QNN EP       | 1.24.1 | Supported |
+| QNN GPU Backend           | 2.47.0 | Supported |
+| QNN NPU Backend           | 2.47.0 | Supported |
+| SNPE GPU Runtime          | 2.47.0 | Supported |
+| SNPE NPU Runtime          | 2.47.0 | Supported |
+| LiteRT QNN Delegate       | 2.1.6  | Supported |
+| GStreamer                 | 1.24.2 | Supported |
+| ONNX Runtime QNN EP       | 1.24.4 | Supported |
 +--------------------------------------------------+
-| Overall Score             | 42% (3/7) |
-| Progress                  | ████████░░░░░░░░░░░░ |
+| Overall Score             | 100% (7/7) |
+| Progress                  | ████████████████████ |
 
 +--- DIAGNOSTICS COMPLETE -------------------------------+
 |                                                  |
@@ -145,7 +145,7 @@ Wise-Bench Result
 +--- All diagnostics completed --------------------------+
 |                                                  |
 +--------------------------------------------------+
->>> Diagnostic Completed at: 2026-07-08 07:45:52
+>>> Diagnostic Completed at: 2026-07-28 09:43:17
 ``` 
 2. Run the benchmark script:
 ```
