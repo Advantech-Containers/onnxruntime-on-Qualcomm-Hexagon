@@ -1,6 +1,6 @@
 # ONNX Runtime on Qualcomm Hexagon
 
-**Version:** 1.0
+**Version:** 2.0
 
 **Release Date:** May 2026
 
@@ -42,12 +42,12 @@ This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime co
 
 | Component             | Version | Description                                                        |
 | --------------------- | ------- | ------------------------------------------------------------------ |
-| Ubuntu                | 22.04   | Guest OS                                                           |
+| Ubuntu                | 24.04   | Guest OS                                                           |
 | Python                | 3.10    | Runtime environment                                                |
-| ONNX Runtime (QNN EP) | 1.24.1  | Custom build with QNN Execution Provider (Built with QAIRT 2.43.0) |
-| QAIRT (QNN SDK)       | 2.43.0  | Qualcomm AI Runtime backend library                                |
-| LiteRT                | 2.1.4   | Provides QNN TFLite Delegate support for GPU/NPU acceleration      |
-| Gstreamer             | 1.20.3  | Multimedia framework for building flexible audio/video pipelines   |
+| ONNX Runtime (QNN EP) | 1.24.4  | Custom build with QNN Execution Provider (Built with QAIRT 2.43.0) |
+| QAIRT (QNN SDK)       | 2.47.0  | Qualcomm AI Runtime backend library                                |
+| LiteRT                | 2.1.6   | Provides QNN TFLite Delegate support for GPU/NPU acceleration      |
+| Gstreamer             | 1.24.2  | Multimedia framework for building flexible audio/video pipelines   |
 
 **Note**: The custom build of `onnxruntime-qnn` currently only works within this container environment.
 
@@ -99,13 +99,13 @@ Wise-Bench Result
 +--------------------------------------------------+
 | Summary Results                                |
 +--------------------------------------------------+
-| QNN GPU Backend           | 2.43.0 | Supported |
-| QNN NPU Backend           | 2.43.0 | Supported |
-| SNPE GPU Runtime          | 2.43.0 | Supported |
-| SNPE NPU Runtime          | 2.43.0 | Supported |
-| LiteRT QNN Delegate       | 2.1.5  | Supported |
-| GStreamer                 | 1.20.3 | Supported |
-| ONNX Runtime QNN EP       | 1.24.1 | Supported |
+| QNN GPU Backend           | 2.47.0 | Supported |
+| QNN NPU Backend           | 2.47.0 | Supported |
+| SNPE GPU Runtime          | 2.47.0 | Supported |
+| SNPE NPU Runtime          | 2.47.0 | Supported |
+| LiteRT QNN Delegate       | 2.1.6  | Supported |
+| GStreamer                 | 1.24.2 | Supported |
+| ONNX Runtime QNN EP       | 1.24.4 | Supported |
 +--------------------------------------------------+
 | Overall Score             | 100% (7/7) |
 | Progress                  | ████████████████████ |
@@ -216,8 +216,10 @@ touch test.py
 Edit `test.py` with the following content:
 
 ```
-import onnxruntime as ort
-print(ort.get_available_providers())
+import onnxruntime as ort, onnxruntime_qnn as qnn
+
+ort.register_execution_provider_library("QNNExecutionProvider", qnn.get_library_path())
+print(any(d.ep_name == "QNNExecutionProvider" for d in ort.get_ep_devices()))
 ```
 
 Switch to `/workspace` in the conatiner:
@@ -232,10 +234,10 @@ python test.py
 
 Expected output:
 ```
-['QNNExecutionProvider', 'CPUExecutionProvider']
+True
 ```
 
-If `QNNExecutionProvider` appears in the output, it confirms that the QNN Execution Provider is successfully enabled and the container can access the Hexagon NPU.
+If `True` appears in the output, it confirms that the QNN Execution Provider is successfully enabled and the container can access the Hexagon NPU.
 
 
 This workflow enables rapid development and testing while keeping the runtime environment isolated within the container.
