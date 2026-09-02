@@ -40,16 +40,16 @@ This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime co
 
 ## 2. Software Components
 
-| Component             | Version | Description                                                        |
-| --------------------- | ------- | ------------------------------------------------------------------ |
-| Ubuntu                | 24.04   | Guest OS                                                           |
-| Python                | 3.10    | Runtime environment                                                |
-| ONNX Runtime (QNN EP) | 1.24.4  | Custom build with QNN Execution Provider (Built with QAIRT 2.43.0) |
-| QAIRT (QNN SDK)       | 2.47.0  | Qualcomm AI Runtime backend library                                |
-| LiteRT                | 2.1.6   | Provides QNN TFLite Delegate support for GPU/NPU acceleration      |
-| Gstreamer             | 1.24.2  | Multimedia framework for building flexible audio/video pipelines   |
+| Component             | Version | Description                                                                     |
+| --------------------- | ------- | ------------------------------------------------------------------------------- |
+| Ubuntu                | 24.04   | Guest OS                                                                        |
+| Python                | 3.10    | Runtime environment                                                             |
+| ONNX Runtime          | 1.24.4  | ONNX core inference engine for executing ONNX models                            |
+| ONNX Runtime QNN      | 2.3.0   | Plugin execution provider enable Qualcomm GPU/NPU acceleration                  |
+| QAIRT (QNN SDK)       | 2.47.0  | Qualcomm AI Runtime backend library                                             |
+| LiteRT                | 2.1.6   | LiteRT runtime provides QNN Delegate support for Qualcomm GPU/NPU acceleration  |
+| Gstreamer             | 1.24.2  | Multimedia framework for building flexible audio/video pipelines                |
 
-**Note**: The custom build of `onnxruntime-qnn` currently only works within this container environment.
 
 ## 3. Run Container
 Clone the project:
