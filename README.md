@@ -52,23 +52,48 @@ This document describes how to validate the Qualcomm NPU-enabled ONNX Runtime co
 
 
 ## 3. Run Container
-Clone the project:
-- On the PC
-```
-git clone https://github.com/Advantech-EdgeSync-Containers/onnxruntime-on-Qualcomm-Hexagon.git
-scp -r ./onnxruntime-on-Qualcomm-Hexagon-main\ <username>@<development-board-ip>:/home/<username>/
-```
-- On device (AOM-2721, AIR-055, AFE-A503, ...)
-```
-chmod +x -R onnxruntime-on-Qualcomm-Hexagon-main
-cd onnxruntime-on-Qualcomm-Hexagon-main
-```
+### Develop on device
+---
+#### Option 1 : Deploy Container with WEDA API
 
-Start the container:
-```
-./run-container.sh
-```
-This script launches the container and opens an interactive shell.
+1. Select the Docker Compose file that matches your device and platform directly
+   - `docker-compose-qcs6490-yocto.yml`: Advantech AOM-2721 (Advantech QCS6490 platforms)
+   - `docker-compose-qcs9075-ubuntu.yml`: Advantech AIR-055, Advantech AFE-A503 (Advantech IQ9 platforms)
+     
+2. [Use WEDA API to deploy container to the edge device](https://learn.advantech.com/weda/docs/Getting_Started/Deploy_Container_to_Device)
+
+
+#### Option 2: Auto Judge Platform Script
+1. Download repo and copy the project files to device
+
+   ![alt text](image.png)
+3. Unzip files and setup permission with following commands:
+    ```bash
+    unzip onnxruntime-on-Qualcomm-Hexagon-main.zip
+    chmod +x -R onnxruntime-on-Qualcomm-Hexagon-main
+    cd onnxruntime-on-Qualcomm-Hexagon-main
+    ```
+4. launch the container
+    ```bash
+    ./run-container.sh
+    ```
+---
+#### Option 3: Docker Command Setup (manual judge platform)
+1. Copy the Docker Compose file that matches your device and platform directly
+- `docker-compose-qcs6490-yocto.yml`: Advantech AOM-2721
+- `docker-compose-qcs9075-ubuntu.yml`: Advantech AIR-055, Advantech AFE-A503
+
+2. Launch the container
+    For QCS6490 Yocto devices, such as Advantech AOM-2721:
+    ```bash
+    docker compose -f docker-compose-qcs6490-yocto.yml up -d
+    ```
+
+    For IQ9075 Ubuntu devices, such as Advantech AIR-055 or Advantech AFE-A503:
+    ```bash
+    docker compose -f docker-compose-qcs9075-ubuntu.yml up -d
+    ```
+
 
 ## 4. Exit container
 Inside the container, type:
