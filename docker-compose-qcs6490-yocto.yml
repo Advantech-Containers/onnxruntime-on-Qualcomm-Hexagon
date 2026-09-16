@@ -1,6 +1,6 @@
 services:
   onnxruntime-on-qualcomm-hexagon:
-    image: harbor.edgesync.cloud/nycu-cosmos-lab/onnxruntime-on-qualcomm-hexagon:v1
+    image: harbor.edgesync.cloud/nycu-cosmos-lab/onnxruntime-on-qualcomm-hexagon:v2
     container_name: onnxruntime-on-qualcomm-hexagon
     hostname: onnxruntime-on-qualcomm-hexagon
     privileged: true
